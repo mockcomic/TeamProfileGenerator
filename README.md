@@ -1,5 +1,9 @@
+
 # Week10Challenge-TeamProfileGenerator
- 
+  [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+  
+ ## Description
+  This application generates a webpage with information about the team members.
 ## User Story
 AS A manager
 I WANT to generate a webpage that displays my team's basic info
@@ -23,3 +27,15 @@ THEN I am prompted to enter the engineer’s name, ID, email, and GitHub usernam
 THEN I am prompted to enter the intern’s name, ID, email, and school, and I am taken back to the menu
 ### WHEN I decide to finish building my team
 THEN I exit the application, and the HTML is generated
+
+## License
+Apache 2.0 License 
+
+ ## Questions
+ Please conatct me if you have any questions or concerns.
+
+ 
+gears2525@aol.com
+
+ 
+https://github.com/mockcomic 

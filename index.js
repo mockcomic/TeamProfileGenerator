@@ -10,28 +10,28 @@ const {
 } = require('./utils/generate-site');
 
 function createTeam(data) {
-    console.log(data)
     let employee;
     if (data.role == 'Manager') employee = new Manager(data.name, data.id, data.email, data.officeNumber)
     if (data.role == 'Engineer') employee = new Engineer(data.name, data.id, data.email, data.github)
     if (data.role == 'Intern') employee = new Intern(data.name, data.id, data.email, data.school)
     teamMembers.push(employee);
-    console.log(teamMembers)
     if (data.addEmployee) {
         inquirer.prompt(addMembers).then(({
             role
         }) => {
             if (role == 'Engineer') {
+                console.log('**** Creating Engineer ****')
                 inquirer.prompt(EngineerQuestion.concat(promptQuestions)).then(answer => createTeam(answer));
             };
             if (role == 'Intern') {
+                console.log('**** Creating Intern ****')
                 inquirer.prompt(InternQuestion.concat(promptQuestions)).then(answer => createTeam(answer));
             };
         })
     } else {
         writeFile(generatePage(teamMembers));
         copyFile();
-        console.log("Files created in /dist");
+        console.log("**** Files created in /dist ****");
     };
 };
 
@@ -50,7 +50,7 @@ const promptQuestions = [{
     {
         type: 'input',
         name: 'id',
-        message: 'Enter Employee ID (Required)',
+        message: 'Enter Employee ID',
         validate: EmployeeIDInput => {
             if (EmployeeIDInput) {
                 return true;
@@ -63,7 +63,7 @@ const promptQuestions = [{
     {
         type: 'input',
         name: 'email',
-        message: 'Enter email address (Required)',
+        message: 'Enter email address',
         validate: EmployeeIDInput => {
             if (EmployeeIDInput) {
                 return true;
@@ -139,6 +139,7 @@ const ManagerQuestion = [{
 }]
 
 function init() {
+    console.log('**** Creating Manager ****')
     inquirer.prompt(ManagerQuestion.concat(promptQuestions)).then(answer => createTeam(answer));
 };
 

@@ -1,4 +1,3 @@
-
 module.exports = data => {
   return `
   <!DOCTYPE html>
@@ -24,7 +23,7 @@ module.exports = data => {
       ${createEmploye(data)}
     </main>
     <footer class="container text-center py-3">
-      <h3 class="text-dark">&copy;2020 by ${data[0].name}</h3>
+      <h3 class="text-dark">&copy;2020 by ${data[0].getName()}</h3>
     </footer>
   </body>
   </html>
@@ -34,12 +33,12 @@ module.exports = data => {
 function createEmploye(data) {
   let output = '';
   data.forEach(data => {
-      output += `<div>
-      <header>${(data.name)}
+    output += `<div>
+      <header>${(data.getName())}
       <div>${(data.getRole())}</div></header>
       <div>
-        <p>Employee ID: ${(data.id)}</p>
-        <a href="mailto:${(data.email)}" >Email: ${(data.email)}</a> <br />
+        <p>Employee ID: ${(data.getId())}</p>
+        <a href="mailto:${(data.getEmail())}" >Email: ${(data.getEmail())}</a> <br />
         ${options(data)}
       </div>
     </div>`;
@@ -48,7 +47,8 @@ function createEmploye(data) {
 }
 
 function options(data) {
-  if (data.getRole() === 'Manager')`<p>Office No.:${(data.officeNumber)}</p>`
-  if (data.getRole() === 'Engineer')`<a href="http://github.com/${(data.github)}">GitHub:${(data.github)}</a>`
-  if (data.getRole() === 'Intern') `<p>School:${(data.school)}</p>`;
+  console.log(data)
+  if (data.getRole() === 'Manager') return `<p>Office Number:${(data.getOfficeNumber())}</p>`
+  if (data.getRole() === 'Engineer') return `<a href="http://github.com/${(data.getGithub())}">GitHub:${(data.getGithub())}</a>`
+  if (data.getRole() === 'Intern') return `<p>School:${(data.getSchool())}</p>`;
 }
