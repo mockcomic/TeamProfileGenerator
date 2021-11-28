@@ -9,28 +9,35 @@ const {
     copyFile
 } = require('./utils/generate-site');
 
-function createTeam(role, options) {
-    inquirer.prompt(promptQuestions)
-        .then(({id,name,email,addEmployee}) => {
-            let employee;
-            if(role == 'Manager') employee = new Manager(name, id, email, options)
-            if(role == 'Engineer') employee = new Engineer(name, id, email, options)
-            if(role == 'Intern') employee = new Intern(name, id, email, options)
-            teamMembers.push(employee);
-            if (addEmployee) {
-                addMembers();
-            } else {
-                console.log(teamMembers)
-                writeFile(generatePage(teamMembers));
-                copyFile();
-                console.log("Files created in /dist");
+function createTeam(data) {
+    console.log(data)
+    let employee;
+    if (data.role == 'Manager') employee = new Manager(data.name, data.id, data.email, data.officeNumber)
+    if (data.role == 'Engineer') employee = new Engineer(data.name, data.id, data.email, data.github)
+    if (data.role == 'Intern') employee = new Intern(data.name, data.id, data.email, data.school)
+    teamMembers.push(employee);
+    console.log(teamMembers)
+    if (data.addEmployee) {
+        inquirer.prompt(addMembers).then(({
+            role
+        }) => {
+            if (role == 'Engineer') {
+                inquirer.prompt(EngineerQuestion.concat(promptQuestions)).then(answer => createTeam(answer));
             };
-        });
+            if (role == 'Intern') {
+                inquirer.prompt(InternQuestion.concat(promptQuestions)).then(answer => createTeam(answer));
+            };
+        })
+    } else {
+        writeFile(generatePage(teamMembers));
+        copyFile();
+        console.log("Files created in /dist");
+    };
 };
 
 const promptQuestions = [{
-    type: 'input',
-    name: 'name',
+        type: 'input',
+        name: 'name',
         message: "Enter employee's name ",
         validate: nameInput => {
             if (nameInput) {
@@ -45,12 +52,12 @@ const promptQuestions = [{
         name: 'id',
         message: 'Enter Employee ID (Required)',
         validate: EmployeeIDInput => {
-          if (EmployeeIDInput) {
-            return true;
-          } else {
-            console.log('Please enter an employee ID!');
-            return false;
-          }
+            if (EmployeeIDInput) {
+                return true;
+            } else {
+                console.log('Please enter an employee ID!');
+                return false;
+            }
         }
     },
     {
@@ -58,12 +65,12 @@ const promptQuestions = [{
         name: 'email',
         message: 'Enter email address (Required)',
         validate: EmployeeIDInput => {
-          if (EmployeeIDInput) {
-            return true;
-          } else {
-            console.log('Please enter an email address!');
-            return false;
-          }
+            if (EmployeeIDInput) {
+                return true;
+            } else {
+                console.log('Please enter an email address!');
+                return false;
+            }
         }
     },
     {
@@ -73,30 +80,66 @@ const promptQuestions = [{
     },
 ];
 
-function addMembers() {
-    inquirer.prompt([{
-            type: 'list',
-            name: 'role',
-            message: 'Members Role:',
-            choices: ['Engineer','Intern'],
-        },
-        {
-            type: 'input',
-            name: 'options',
-            message: 'Enter either Github username or School',
+const addMembers = [{
+    type: 'list',
+    name: 'role',
+    message: 'Members Role:',
+    choices: ['Engineer', 'Intern'],
+}];
+const InternQuestion = [{
+    type: 'list',
+    name: 'role',
+    choices: ['Intern']
+},{
+    type: 'input',
+    name: 'school',
+    message: 'Enter School',
+    validate: input => {
+        if (input) {
+            return true;
+        } else {
+            console.log('Please enter a School!');
+            return false;
         }
-    ]).then(({role,options}) => {
-        createTeam(role, options);
-    });
-};
-
+    }
+}]
+const EngineerQuestion = [{
+    type: 'list',
+    name: 'role',
+    choices: ['Engineer']
+},{
+    type: 'input',
+    name: 'github',
+    message: 'Enter Github username',
+    validate: input => {
+        if (input) {
+            return true;
+        } else {
+            console.log('Please enter Github!');
+            return false;
+        }
+    }
+}]
+const ManagerQuestion = [{
+    type: 'list',
+    name: 'role',
+    choices: ['Manager']
+}, {
+    type: 'input',
+    name: 'officeNumber',
+    message: "What is the Manager's office number?",
+    validate: input => {
+        if (input) {
+            return true;
+        } else {
+            console.log('Please enter an office number!');
+            return false;
+        }
+    }
+}]
 
 function init() {
-    inquirer.prompt([{
-        type: 'input',
-        name: 'officeNumber',
-        message: "What is the Manager's office number?",
-    }]).then(({officeNumber}) => createTeam('Manager', officeNumber));
+    inquirer.prompt(ManagerQuestion.concat(promptQuestions)).then(answer => createTeam(answer));
 };
 
 init();

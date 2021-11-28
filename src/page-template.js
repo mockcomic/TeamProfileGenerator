@@ -33,22 +33,22 @@ module.exports = data => {
 
 function createEmploye(data) {
   let output = '';
-  data.forEach(element => {
+  data.forEach(data => {
       output += `<div>
-      <header>${(element.name)}
-      <div>${(element.getRole())}</div></header>
+      <header>${(data.name)}
+      <div>${(data.getRole())}</div></header>
       <div>
-        <p>Employee ID: ${(element.id)}</p>
-        <a href="mailto:${(element.email)}" >Email: ${(element.email)}</a> <br />
-        ${options(element)}
+        <p>Employee ID: ${(data.id)}</p>
+        <a href="mailto:${(data.email)}" >Email: ${(data.email)}</a> <br />
+        ${options(data)}
       </div>
     </div>`;
   })
   return output;
 }
 
-function options(element) {
-  if (element.getRole() === 'Manager')`<p>Office No.:${(element.officeNumber)}</p>`
-  if (element.getRole() === 'Engineer')`<a href="http://github.com/${(element.github)}">GitHub:${(element.github)}</a>`
-  if (element.getRole() === 'Intern') `<p>School:${(element.school)}</p>`;
+function options(data) {
+  if (data.getRole() === 'Manager')`<p>Office No.:${(data.officeNumber)}</p>`
+  if (data.getRole() === 'Engineer')`<a href="http://github.com/${(data.github)}">GitHub:${(data.github)}</a>`
+  if (data.getRole() === 'Intern') `<p>School:${(data.school)}</p>`;
 }
