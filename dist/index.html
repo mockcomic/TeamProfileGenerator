@@ -1,6 +1,4 @@
 
-module.exports = data => {
-  return `
   <!DOCTYPE html>
   <html lang="en">
   
@@ -21,34 +19,27 @@ module.exports = data => {
       </div>
     </header>
     <main class="container my-5">
-      ${createEmploye(data)}
+      <div class="card is-child">
+      <header>asdf
+      <div>Manager</div></header>
+      <div>
+        <p>Employee ID: asdf</p>
+        <a href="mailto:asdf" >Email: asdf</a> <br />
+        undefined
+      </div>
+    </div><div class="card is-child">
+      <header>asdf
+      <div>Engineer</div></header>
+      <div>
+        <p>Employee ID: asdf</p>
+        <a href="mailto:asd" >Email: asd</a> <br />
+        undefined
+      </div>
+    </div>
     </main>
     <footer class="container text-center py-3">
-      <h3 class="text-dark">&copy;2020 by ${data[0].name}</h3>
+      <h3 class="text-dark">&copy;2020 by asdf</h3>
     </footer>
   </body>
   </html>
-  `;
-};
-
-function createEmploye(data) {
-  let output = '';
-  data.forEach(element => {
-      output += `<div>
-      <header>${(element.name)}
-      <div>${(element.getRole())}</div></header>
-      <div>
-        <p>Employee ID: ${(element.id)}</p>
-        <a href="mailto:${(element.email)}" >Email: ${(element.email)}</a> <br />
-        ${options(element)}
-      </div>
-    </div>`;
-  })
-  return output;
-}
-
-function options(element) {
-  if (element.getRole() === 'Manager')`<p>Office No.:${(element.officeNumber)}</p>`
-  if (element.getRole() === 'Engineer')`<a href="http://github.com/${(element.github)}">GitHub:${(element.github)}</a>`
-  if (element.getRole() === 'Intern') `<p>School:${(element.school)}</p>`;
-}
+  
